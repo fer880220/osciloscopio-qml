@@ -1,0 +1,1 @@
+# osciloscopio-qml
