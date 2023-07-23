@@ -28,18 +28,20 @@ To install and run the oscilloscope on your Windows PC, follow these steps:
 1. Clone this repository to your local machine.
 
    ```bash
-   git clone https://github.com/your-username/qml-oscilloscope.git
+   git clone https://github.com/fer880220/osciloscopio-qml.git
    
 2. Ensure you have Qt 5.8 installed on your system.
-3. Install Thonny on your Raspberry Pi Pico.
+3. Download and install Thonny from their website: [Thonny Download](https://thonny.org/).
+3. Connect the Raspberry Pi Pico to your PC via USB.
+4. Open Thonny and install MicroPython on the Pico.
+5. Open the `.py` files located in the "MicroPy ADC proj" folder of this project in Thonny. Save a copy of each `.py` file to the Pico using Thonny, then close Thonny and disconnect the USB cable from the Pico.
+
 
 ## How to Use
 1. Connect the Raspberry Pi Pico to your PC.
-2. Open the Thonny IDE on your Raspberry Pi Pico.
-3. Upload the necessary firmware to the Raspberry Pi Pico for signal transmission.
-4. Launch the Qt-based application on your PC.
-5. Configure the oscilloscope settings such as frequency range and voltage range.
-6. Start capturing and visualizing signals on the oscilloscope.
+2. Open `qmloscilloscope.pro` located in the "QT C++" folder of the project using Qt-Creator.
+3. Execute `qmloscilloscope` in Qt-Creator to run the oscilloscope.
+4. Start capturing and visualizing signals on the oscilloscope.
 
 ## Contributing
 We welcome contributions to enhance the functionality and compatibility of the oscilloscope. If you would like to contribute, please fork this repository, create a new branch, make your changes, and submit a pull request.
