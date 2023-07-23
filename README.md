@@ -48,4 +48,4 @@ We welcome contributions to enhance the functionality and compatibility of the o
 This project is licensed under the MIT License.
 
 ## Contact
-If you have any questions or suggestions regarding this project, please feel free to contact the development team at https://t.me/+EbFdxe7a9z5mNjJh
+If you have any questions or suggestions regarding this project, please feel free to contact the development team at https://t.me/+EbFdxe7a9z5mNjJh .
