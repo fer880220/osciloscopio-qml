@@ -28,7 +28,7 @@
 ****************************************************************************/
 
 #include "datasource.h"
-#include <QtCharts/QXYSeries>
+
 #include <QtCharts/QAreaSeries>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
@@ -64,48 +64,46 @@ DataSource::DataSource(QQuickView *appViewer, QObject *parent) :
 DataSource::~DataSource()
 {
     hiloRecibidor.bCorriendo = false ;
-    hiloRecibidor.exit();    
+    hiloRecibidor.exit();
 }
 
 void DataSource::update()
-{
-    if (m_series && (mVector.size() == maxPoints || mPercent % 5 ==0)) {
-        QXYSeries *xySeries = static_cast<QXYSeries *>(m_series);
-
+{    
         // Use replace instead of clear + append, it's optimized for performance
-        xySeries->replace( mVector );
-        qDebug()<<xySeries->pointsVector().size();
-    }
+        m_series->replace(mVector);
 }
 
 void DataSource::setSeries(QAbstractSeries *series)
 {
-    m_series = series ;
-     QXYSeries *xySeries = static_cast<QXYSeries *>(m_series);
-    qDebug()<<xySeries->pointsVector().size();
+    m_series = (QXYSeries*)series ;
+
 }
 
 void DataSource::onDataReady(QVector<QPointF> v)
 {
     if(mVector.size() < maxPoints){
-        /*for(auto pv : v)
-            mVector.push_back(pv);*/
+        QVector<QPointF> v2;
+        int len = v.size();
+        for(int i = 0 ; i < len ; i++)
+            v2.push_back(QPointF(i,v[i].ry()));
+        m_series->replace(v2);
+
         mVector += v ;
+
         qreal percent = mVector.size() * 1.0 /maxPoints * 100 ;
         setPercent( percent ) ;
-        if(mPercent % 5 ==0)
-            emit cPointsChanged(mVector.size());
-        update();
     }
     else{
         endCollect();
         emit percentChanged(100);
+        emit cPointsChanged(mVector.size());
     }
 
 }
 
 void DataSource::beginCollect()
 {
+    maxPoints = UN_MILLON ;
     foreach (QVector<QPointF> row, m_data)
         row.clear();
     m_data.clear();
@@ -121,7 +119,8 @@ void DataSource::endCollect()
     hiloRecibidor.bCorriendo = false ;
     hiloRecibidor.exit();
     maxPoints = mVector.size() ;
-    update();
+    m_series->replace(mVector);
+   // update();
 }
 
 

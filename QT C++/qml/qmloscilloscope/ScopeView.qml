@@ -29,6 +29,7 @@
 
 import QtQuick 2.0
 import QtCharts 2.1
+import QtQml 2.2
 
 //![1]
 ChartView {
@@ -37,6 +38,7 @@ ChartView {
     theme: ChartView.ChartThemeDark
     property bool openGL: true
     property bool openGLSupported: true
+
     onOpenGLChanged: {
         if (openGLSupported) {
             series("signal 1").useOpenGL = openGL;
@@ -108,17 +110,19 @@ ChartView {
 
         onWheel: {
             if (wheel.modifiers & Qt.ControlModifier){
-                if(wheel.angleDelta.y > 0 )
-                    axisX.max -= 100
+                if(wheel.angleDelta.y > 0 ){
+                    if(axisX.max - axisX.min > 100)
+                        axisX.max -= 100
+                }
                 else
-                    if(axisX.max > 10)
-                        axisX.max += 100
+                    axisX.max += 100
             }else{
-                if(wheel.angleDelta.y > 0 )
-                    axisX.max -= 10
+                if(wheel.angleDelta.y > 0 ){
+                    if(axisX.max - axisX.min > 10)
+                        axisX.max -= 10
+                }
                 else
-                    if(axisX.max > 10)
-                        axisX.max += 10
+                    axisX.max += 10
             }
 
         }
@@ -162,7 +166,18 @@ ChartView {
     ValueAxis {
         id: axisX
         min: 0
-        max: dataSource.cPoints
+        max: 1000
+    }
+    function setMin(min){
+        axisX.min = min
+    }
+    function setMax(max){
+        axisX.max = max
+    }
+
+    Connections{
+        target: dataSource
+        onCPointsChanged:{ axisX.max = dataSource.cPoints}
     }
 
     LineSeries {

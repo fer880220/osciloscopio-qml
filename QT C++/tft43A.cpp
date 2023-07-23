@@ -1,9 +1,12 @@
 #include<QDebug>
 #include "tft43A.h"
+#include <windows.h>
 //---------------------------------------------------------------
-void TFT_send(HANDLE hCom, char*buf,
+OVERLAPPED osReader;
+HANDLE hCom;
+void TFT_send(char*buf,
                        unsigned short int *param,
-                       int cbuf,int cparam)
+                       int cbuf, int cparam)
 {//DC1|len|...DATA...|bcc
     DWORD written;
     unsigned char dc1=0x11;
@@ -30,8 +33,7 @@ void TFT_send(HANDLE hCom, char*buf,
 }
 //---------------------------------------------------------------
 
- OVERLAPPED osReader;
- HANDLE hCom;
+
   bool TFT_startComm()
   {
     DCB setting={0};
@@ -54,23 +56,32 @@ void TFT_send(HANDLE hCom, char*buf,
     setting.DCBlength= 28;
     setting.BaudRate= 115200;
     setting.fBinary= 1;
+	setting.fDtrControl= 1;
+	setting.fRtsControl= 1;
+	setting.ByteSize= 8;
+	setting.ErrorChar= 4294967289;
+    setting.EofChar= 64;
+	
     setting.fParity= 0;
-    setting.fOutxCtsFlow= 0;    setting.fOutxDsrFlow= 0;
-    setting.fDtrControl= 1;
+    setting.fOutxCtsFlow= 0;    
+	setting.fOutxDsrFlow= 0;    
     setting.fDsrSensitivity= 0;
     setting.fTXContinueOnXoff= 0;
-    setting.fOutX= 0;    setting.fInX= 0;
-    setting.fErrorChar= 0;    setting.fNull= 0;
-    setting.fRtsControl= 1;
+    setting.fOutX= 0;   
+	setting.fInX= 0;
+    setting.fErrorChar= 0;    
+	setting.fNull= 0;    
     setting.fAbortOnError= 0;
-    setting.fDummy2= 0;    setting.wReserved= 0;
-    setting.XonLim= 0;    setting.XoffLim= 0;
-    setting.ByteSize= 8;
-    setting.Parity= 0;    setting.StopBits= 0;
-    setting.XonChar= 0;    setting.XoffChar= 0;
-    setting.ErrorChar= 4294967289;
-    setting.EofChar= 64;
-    setting.EvtChar= 0;    setting.wReserved1= 0;
+    setting.fDummy2= 0;    
+	setting.wReserved= 0;
+    setting.XonLim= 0;    
+	setting.XoffLim= 0;    
+    setting.Parity= 0;    
+	setting.StopBits= 0;
+    setting.XonChar= 0;    
+	setting.XoffChar= 0;    
+    setting.EvtChar= 0;    
+	setting.wReserved1= 0;
 
 
     SetCommState(hCom, &setting); // establecer  new config.

@@ -33,7 +33,7 @@
 #include <QtCore/QObject>
 #include <QtCharts/QAbstractSeries>
 #include<hilorecibidor.h>
-
+#include <QtCharts/QXYSeries>
 QT_BEGIN_NAMESPACE
 class QQuickView;
 QT_END_NAMESPACE
@@ -72,7 +72,7 @@ private:
     QList<QVector<QPointF> > m_data;
     int m_index;
     bool goodConn;
-    QAbstractSeries *m_series;
+    QXYSeries  *m_series;
     HiloRecibidor hiloRecibidor;
     QVector<QPointF> mVector ;
     int mPercent;

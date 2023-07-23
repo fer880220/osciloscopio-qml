@@ -54,6 +54,8 @@ ColumnLayout {
         currentSelection: 1
         onSelectionChanged: {
             if(currentSelection == 0){
+                scopeView.setMin(0)
+                scopeView.setMax(sampleCountButton.items[sampleCountButton.currentSelection])
                 dataSource.beginCollect()
                 //text = "Stop"
             }else{
